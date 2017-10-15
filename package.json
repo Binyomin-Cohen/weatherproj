@@ -12,9 +12,12 @@
     "test": "npm run unit"
   },
   "dependencies": {
+    "chart.js": "^2.7.0",
+    "hchs-vue-charts": "^1.2.8",
     "sass-loader": "^6.0.6",
     "sinon": "^4.0.1",
-    "vue": "^2.4.2"
+    "vue": "^2.4.2",
+    "vue-chartjs": "^2.8.7"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
