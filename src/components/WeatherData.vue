@@ -22,6 +22,7 @@
             <p class="timeHeading tall">{{new Date(weather.currently.time * 1000).toDateString()}}</p>  
             <p class="summary">{{weather.currently.summary}}</p>
             <p class="temperature">{{weather.currently.temperature}} degrees</p>
+            <img v-bind:src="getImageForIconString(weather.currently.icon)" alt="Mountain View" style="width:304px;height:228px;">
           </div>
         </div>
         <div class="weatherInfo" v-if="weather != undefined && weather.currently != undefined"> 
@@ -31,6 +32,7 @@
                 <p class="date">{{new Date(dayData.time * 1000).toDateString()}}</p>
                 <p class="summary">{{dayData.summary}}</p>
                 <p class="temperature">High of {{dayData.temperatureHigh}} and low of {{dayData.temperatureLow}}</p>
+                <img class="weatherIcon" v-bind:src="getImageForIconString(dayData.icon)" alt="Mountain View" style="width:200px;height:130px;">
             </div>
           </div>
         </div>
@@ -53,6 +55,7 @@ export default {
   },
   data: function(){
     return {
+            cloudyIcon: '../../static/cloudy.png',
             currentLocation: {},
             customLocation: '',
             customLocationCoordinates: {},
@@ -89,7 +92,7 @@ export default {
             localStorage.previousSearches = pSearches;
             var app = this;
             var isForCurrent = new Date(app.customDate).getUTCDate() == new Date().getUTCDate();
-            var weatherUrl = "https://api.darksky.net/forecast/API_KEY_HERE/" + lat + "," + lng;
+            var weatherUrl = "https://api.darksky.net/forecast/API_KEY/" + lat + "," + lng;
             if(!isForCurrent){
               var time = (new Date(app.customDate).getTime())/ 1000;
               weatherUrl += "," + time
@@ -127,6 +130,42 @@ export default {
                 console.log('error');
             }
         },
+        getImageForIconString: function(iconString){
+          switch(iconString){
+            case 'clear-day':
+              return '../../static/sunny.jpg';
+              break;
+            case 'clear-night':
+              return '../../static/clearnight.jpg';
+              break;  
+            case 'rain':
+              return '../../static/rain.png';
+              break; 
+            case 'snow':
+              return '../../static/snow.png';
+              break; 
+            case 'sleet':
+              return '../../static/sleet.png';
+              break;   
+            case 'wind':
+              return '../../static/wind.png';
+              break; 
+            case 'fog':
+              return '../../static/fog.png';
+              break; 
+            case 'cloudy':
+              return '../../static/cloudy.png';
+              break; 
+            case 'partly-cloudy-day':
+              return '../../static/partlycloudy.png';
+              break; 
+            case 'partly-cloudy-night':
+              return '../../static/cloudynight.png';
+              break; 
+            default:
+              return '../../static/partlycloudy.png';                                                                                                                
+          }
+        }
     },
     created: function(){
             var app = this;
@@ -140,6 +179,8 @@ export default {
             });
     }
 };
+
+//v-bind:src="getImageForIconString(weather.currently.icon)"
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -198,5 +239,8 @@ label{
 .temperature{
   font-size: 1.5em;
   color: #005bb2;
+}
+.weatherIcon{
+  margin-bottom: 25px;
 }
 </style>
